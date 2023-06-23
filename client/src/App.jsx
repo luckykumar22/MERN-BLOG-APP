@@ -1,7 +1,21 @@
+import './App.css'
+import Navbar from './Navbar'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Register from './Register'
+import Login from './Login'
 
-const App = () => {
+function App() {
+
   return (
-    <div>Blog App</div>
+    <div>
+      <BrowserRouter>
+      <Navbar />
+        <Routes>
+          <Route path='/register' element={<Register />}></Route>
+          <Route path='/login' element={<Login />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
 
