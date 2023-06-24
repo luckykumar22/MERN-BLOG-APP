@@ -26,12 +26,34 @@ app.post("/register", (req, res) => {
   bcrypt
     .hash(password, 10)
     .then((hash) => {
-      UserModel
-        .create({ username, email, password: hash })
+      UserModel.create({ username, email, password: hash })
         .then((user) => res.json(user))
         .catch((err) => res.json(err));
     })
     .catch((err) => console.log(err));
+});
+
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  UserModel.findOne({ email: email }).then((user) => {
+    if (user) {
+      bcrypt.compare(password, user.password, (err, response) => {
+        if (response) {
+          const token = jwt.sign(
+            { email: user.email, username: user.username },
+            "jwt-secret-key",
+            { expiresIn: "1d" }
+          );
+          res.cookie("token", token);
+          return res.json("Success");
+        } else {
+          return res.json(`Password is incorrect!`);
+        }
+      });
+    } else {
+      console.log(`User not found!`);
+    }
+  });
 });
 
 app.listen(3000, () => {

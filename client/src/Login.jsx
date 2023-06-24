@@ -1,17 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./style.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
       .post("http://localhost:3000/login", { email, password })
-      .then((res) => console.log(res))
+      .then((res) => {
+        if (res.data === "Success") {
+          navigate("/");
+        }
+      })
       .catch((err) => console.log(err));
   };
 
@@ -22,11 +27,21 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email">Email:</label>
-            <input type="email" name="email" placeholder="Enter Email" onChange={(e) => setEmail(e.target.value)}/>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div>
             <label htmlFor="password">Password:</label>
-            <input type="password" name="password" placeholder="*********" onChange={(e) => setPassword(e.target.value)} />
+            <input
+              type="password"
+              name="password"
+              placeholder="*********"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <button className="signup_btn">Login</button>
         </form>
