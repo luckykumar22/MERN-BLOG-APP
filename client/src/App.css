@@ -63,3 +63,10 @@
 .signup_btn{
   margin-top: 8px;
 }
+
+.btn-input{
+  border: none;
+  color: #fff;
+  background-color: transparent;
+  font-weight: bolder;
+}
