@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../App.css";
 import axios from "axios";
 import { useState } from "react";
@@ -6,7 +6,6 @@ import { useState } from "react";
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +13,7 @@ function Login() {
       .post("http://localhost:3000/login", { email, password })
       .then((res) => {
         if(res.data==='Success'){
-          navigate('/')
+          window.location.href='/'
         }
       })
       .catch((err) => console.log(err));

@@ -39,6 +39,11 @@ const verifyUser = (req, res, next) => {
 };
 
 // routes
+app.get('/logout',(req,res)=>{
+  res.clearCookie('token')
+  return res.json("Success")
+})
+
 app.get("/", verifyUser, (req, res) => {
   return res.json({ email: req.email, username: req.username });
 });
