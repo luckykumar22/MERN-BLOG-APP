@@ -8,8 +8,11 @@ const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const db = require("./config/mongoose");
 const UserModel = require("./models/UserModel");
-
+const PostModel = require("./models/PostModel");
+const dotenv = require("dotenv").config();
+const port = process.env.PORT || 8000;
 const app = express();
+
 app.use(express.json());
 app.use(
   cors({
@@ -38,12 +41,13 @@ const verifyUser = (req, res, next) => {
   }
 };
 
-// routes
-app.get('/logout',(req,res)=>{
-  res.clearCookie('token')
-  return res.json("Success")
-})
+// --------------Logout Route API-------------------
+app.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  return res.json("Success");
+});
 
+// --------------Register Route API-------------------
 app.get("/", verifyUser, (req, res) => {
   return res.json({ email: req.email, username: req.username });
 });
@@ -60,6 +64,7 @@ app.post("/register", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+// --------------Login Route API-------------------
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   UserModel.findOne({ email: email })
@@ -86,6 +91,33 @@ app.post("/login", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-app.listen(3000, () => {
-  console.log(`Server Connected to Port: 3000`);
+// --------------Create Post API-------------------
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "Public/Images");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+});
+
+app.post("/create", verifyUser, upload.single("file"), (req, res) => {
+  PostModel.create({
+    title: req.body.title,
+    description: req.body.description,
+    file: req.file.filename,
+  })
+    .then((result) => res.json("Success"))
+    .catch((err) => console.log(err));
+});
+
+app.listen(port, () => {
+  console.log(`Server Connected to Port: ${port}`);
 });

@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv").config();
+const db_url = process.env.DB_URL;
 
-mongoose.connect('mongodb+srv://luck22y:userlucky@cluster0.2h0vmxh.mongodb.net/blog?retryWrites=true&w=majority')
-// mongoose.connect("mongodb://127.0.0.1:27017/blog");
+mongoose.connect(db_url);
 
 const db = mongoose.connection;
 

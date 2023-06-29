@@ -52,21 +52,63 @@
   border-radius: 5px;
   border: 1px solid rgb(216, 213, 213);
 }
-.signup_form form button{
+.signup_form form button {
   background-color: rgb(17, 80, 227);
   color: #fff;
 }
-.signup_form button{
+.signup_form button {
   background-color: rgb(3, 177, 18);
   color: #fff;
 }
-.signup_btn{
+.signup_btn {
+  cursor: pointer;
   margin-top: 8px;
 }
 
-.btn-input{
+.btn-input {
   border: none;
   color: #fff;
   background-color: transparent;
   font-weight: bolder;
+  cursor: pointer;
+}
+.post_container{
+  width: 90%;
+  padding: 3.12em 5em;
+  position: absolute;
+  transform: translateX(-25%);
+  top: 5em;
+  left: 50%;
+  /* border: 1px solid #000000; */
+  /* border-radius: 0.5em; */
+}
+.post_form h2{
+  text-align: center;
+  color: #c5082e;
+}
+.post_form {
+  width: 50%;
+  padding: 20px;
+  border: 1px solid #c5082e;
+  border-radius: 5px;
+}
+.post_form input,
+.post_form textarea,
+.post_form button {
+  width: 100%;
+  margin: 10px 0px;
+  padding: 8px;
+}
+.post_form .file {
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+.post_form button{
+  cursor: pointer;
+  color: #fff;
+  background-color: #6562f1;
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
 }

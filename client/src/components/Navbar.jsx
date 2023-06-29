@@ -23,15 +23,16 @@ function Navbar() {
         <h3>Blog App</h3>
       </div>
       <div>
-        <a href="/" className="link">
+        <Link to="/" className="link">
           Home
-        </a>
-        <a href="" className="link">
-          Create
-        </a>
-        <a href="" className="link">
-          Contact
-        </a>
+        </Link>
+        {user.username ? (
+          <Link to="/create" className="link">Create</Link>
+        ) : (
+          <></>
+        )}
+
+        <Link to="/contact" className="link">Contact</Link>
       </div>
       {user.username ? (
         <div>
