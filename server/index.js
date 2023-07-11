@@ -23,6 +23,7 @@ app.use(
 );
 
 app.use(cookieParser());
+app.use(express.static("public"));
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
@@ -113,10 +114,43 @@ app.post("/create", verifyUser, upload.single("file"), (req, res) => {
     title: req.body.title,
     description: req.body.description,
     file: req.file.filename,
+    email: req.body.email,
   })
     .then((result) => res.json("Success"))
     .catch((err) => console.log(err));
 });
+
+// --------------Get Post API-------------------
+app.get("/getposts", (req, res) => {
+  PostModel.find()
+    .then((posts) => res.json(posts))
+    .catch((err) => res.json(err));
+});
+
+app.get("/getpostbyid/:id", (req, res) => {
+  const id = req.params.id;
+  PostModel.findById({ _id: id })
+    .then((post) => res.json(post))
+    .catch((err) => console.log(err));
+});
+
+// --------------Update Post API-------------------
+app.put('/editpost/:id', (req, res) => {
+  const id = req.params.id;
+  PostModel.findByIdAndUpdate(
+      {_id: id},{ 
+      title: req.body.title, 
+      description: req.body.description}
+      ).then(result => res.json("Success"))
+      .catch(err => res.json(err))
+})
+
+// --------------Delete Post API-------------------
+app.delete('/deletepost/:id', (req, res) => {
+  PostModel.findByIdAndDelete({_id: req.params.id})
+  .then(result => res.json("Success"))
+  .catch(err => res.json(err))
+})
 
 app.listen(port, () => {
   console.log(`Server Connected to Port: ${port}`);

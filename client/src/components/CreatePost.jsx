@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import "../App.css";
+import { userContext } from "../App";
+
 
 function CreatePost() {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [file, setFile] = useState();
+  const user = useContext(userContext);
 
   const handlePost = (e) => {
     e.preventDefault();
     const formData= new FormData()
     formData.append('title',title)
     formData.append('description',description)
+    formData.append("email", user.email);
     formData.append('file',file)
     axios
       .post("http://localhost:3000/create",formData)
